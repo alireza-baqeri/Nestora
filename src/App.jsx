@@ -16,15 +16,16 @@ import AppLayout from "../ui/AppLayout";
 const queryClient = new QueryClient({
   defaultOptions: {
     query: {
-      staleTime: 60 * 1000,
+      // staleTime: 60 * 1000,
+      staleTime: 0,
     },
   },
 });
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}> 
-      <ReactQueryDevtools/>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
