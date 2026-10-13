@@ -1,5 +1,3 @@
-import styled from "styled-components";
-
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
@@ -9,42 +7,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { createCabin } from "../../services/apiCabins";
-
-const FormRow = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
-
-  padding: 1.2rem 0;
-
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
-`;
-
-const Label = styled.label`
-  font-weight: 500;
-`;
-
-const Error = styled.span`
-  font-size: 1.4rem;
-  color: var(--color-red-700);
-`;
+import FormRow from "../../ui/FormRow";
 
 function CreateCabinForm() {
   const { register, handleSubmit, reset, getValues, formState } = useForm();
@@ -73,7 +36,7 @@ function CreateCabinForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
-      <FormRow label="Cabin name" error={errors?.name?.message}>
+      <FormRow label="Cabin name" id="name" error={errors?.name?.message}>
         <Input
           type="text"
           id="name"
@@ -84,10 +47,15 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
+      <FormRow
+        label="Maximum capacity"
+        id="maxCapacity"
+        error={errors?.maxCapacity?.message}
+      >
         <Input
           type="number"
           id="maxCapacity"
+          disabled={isCreating}
           {...register("maxCapacity", {
             required: "This field is required",
             min: {
@@ -98,10 +66,15 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow label="Regular price" error={errors?.regularPrice?.message}>
+      <FormRow
+        label="Regular price"
+        id="regularPrice"
+        error={errors?.regularPrice?.message}
+      >
         <Input
           type="number"
           id="regularPrice"
+          disabled={isCreating}
           {...register("regularPrice", {
             required: "This field is required",
             min: {
@@ -112,15 +85,16 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow label="Discount" error={errors?.discount?.message}>
+      <FormRow label="Discount" id="discount" error={errors?.discount?.message}>
         <Input
           type="number"
           id="discount"
+          disabled={isCreating}
           defaultValue={0}
           {...register("discount", {
             required: "This field is required",
             validate: (value) =>
-              value > getValues().regularPrice ||
+              value <= getValues().regularPrice ||
               "Discount should be less than regular price.",
           })}
         />
@@ -128,20 +102,23 @@ function CreateCabinForm() {
 
       <FormRow
         label="Description for website"
+        id="description"
         error={errors?.description?.message}
       >
         <Textarea
           type="number"
           id="description"
+          disabled={isCreating}
           defaultValue=""
           {...register("description")}
         />
       </FormRow>
 
-      <FormRow label="Cabin photo" error={errors?.image?.message}>
+      <FormRow label="Cabin photo" id="image" error={errors?.image?.message}>
         <FileInput
           id="image"
           accept="image/*"
+          disabled={isCreating}
           {...register("image", {
             required: "This field is required",
           })}
@@ -153,7 +130,9 @@ function CreateCabinForm() {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled={isCreating}>Add cabin</Button>
+        <Button type="submit" disabled={isCreating}>
+          Add cabin
+        </Button>
       </FormRow>
     </Form>
   );

@@ -1,14 +1,5 @@
 import styled from "styled-components";
 
-// import Input from "../../ui/Input";
-// import Form from "../../ui/Form";
-// import Button from "../../ui/Button";
-// import FileInput from "../../ui/FileInput";
-// import Textarea from "../../ui/Textarea";
-// import { useForm } from "react-hook-form";
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import toast from "react-hot-toast";
-// import { createCabin } from "../../services/apiCabins";
 
 const StyledFormRow = styled.div`
   display: grid;
@@ -46,10 +37,10 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function FormRow({ label, error, children }) {
+function FormRow({ label, id, error, children }) {
   return (
     <StyledFormRow>
-      {label && <Label htmlFor={children.props.id}>{label}</Label>}
+      {label && <Label htmlFor={id}>{label}</Label>}
       {children}
       {error && <Error>{error}</Error>}
     </StyledFormRow>
