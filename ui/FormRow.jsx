@@ -1,17 +1,16 @@
 import styled from "styled-components";
 
+// import Input from "../../ui/Input";
+// import Form from "../../ui/Form";
+// import Button from "../../ui/Button";
+// import FileInput from "../../ui/FileInput";
+// import Textarea from "../../ui/Textarea";
+// import { useForm } from "react-hook-form";
+// import { useMutation, useQueryClient } from "@tanstack/react-query";
+// import toast from "react-hot-toast";
+// import { createCabin } from "../../services/apiCabins";
 
-import Input from "../../ui/Input";
-import Form from "../../ui/Form";
-import Button from "../../ui/Button";
-import FileInput from "../../ui/FileInput";
-import Textarea from "../../ui/Textarea";
-import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { createCabin } from "../../services/apiCabins";
-
-const FormRow = styled.div`
+const StyledFormRow = styled.div`
   display: grid;
   align-items: center;
   grid-template-columns: 24rem 1fr 1.2fr;
@@ -47,19 +46,13 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function FormRow() {
+function FormRow({ label, error, children }) {
   return (
-    <FormRow>
-      <Label htmlFor="name">Cabin name</Label>
-      <Input
-        type="text"
-        id="name"
-        {...register("name", {
-          required: "This field is required",
-        })}
-      />
-      {errors?.name?.message && <Error>{errors.name.message}</Error>}
-    </FormRow>
+    <StyledFormRow>
+      {label && <Label htmlFor={children.props.id}>{label}</Label>}
+      {children}
+      {error && <Error>{error}</Error>}
+    </StyledFormRow>
   );
 }
 
